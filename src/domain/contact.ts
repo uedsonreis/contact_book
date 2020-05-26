@@ -1,6 +1,6 @@
 export class Contact {
 
-    public key?: number
+    public id?: number
     public name!: string
     public phone!: string
 

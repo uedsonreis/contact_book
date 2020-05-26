@@ -1,8 +1,8 @@
 import { Contact } from './contact'
 
-const NUM_CONTACTS = 10000
-const firstNames = [ 'Eddard', 'Tywin', 'John', 'Hector', 'Adam', 'Uedson', 'Winston', 'Mary', 'Lyanna' ]
-const lastNames = [ 'Smith', 'Lannister', 'Williams', 'Bull', 'Stark', 'Reis', 'Arryn', 'Reyne', 'Windsor' ]
+const NUM_CONTACTS = 100
+const firstNames = [ 'Eddard', 'Tywin', 'John', 'Hector', 'Adam', 'Uedson', 'Winston', 'Mary', 'Lyanna', 'Edward', 'Daemon', 'Aegon', 'Lionel' ]
+const lastNames = [ 'Smith', 'Lannister', 'Williams', 'Bull', 'Stark', 'Reis', 'Arryn', 'Reyne', 'Churchill', 'Windsor', 'Blackfyre', 'Targaryen', 'Messi' ]
 
 class ContactBook {
 
@@ -24,7 +24,7 @@ class ContactBook {
     }
     
     private generatePhoneNumber(): string {
-        return `${this.random(999, 100)} - ${this.random(999, 100)} - ${this.random(9999, 1000)}`
+        return `(${this.random(99, 10)}) ${this.random(9, 1)} ${this.random(9999, 1000)}-${this.random(9999, 1000)}`
     }
     
     private createContact(): Contact {
@@ -34,8 +34,8 @@ class ContactBook {
         }
     }
 
-    private addKeys(value: any, key: any) {
-        return { key, ...value }
+    private addKeys(value: any, id: number) {
+        return { id, ...value }
     }
 
 }
