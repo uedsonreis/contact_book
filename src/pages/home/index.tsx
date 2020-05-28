@@ -12,16 +12,28 @@ export default class HomePage extends Component<any, any> {
     constructor(props: any) {
         super(props)
 
+        this.props.navigation.setOptions({ headerLeft: () => <Button title="exit" color="red" onPress={this.logoff} /> })
         this.props.navigation.setOptions({ headerRight: () => <Button title="add" onPress={this.addNewContact} /> })
 
-        this.state = {
-            contacts: contactBook.getContacts()
-        }
+        this.state = { contacts: [] }
+    }
+
+    componentDidMount() {
+        this.updateContacts()
+    }
+
+    private async updateContacts(): Promise<void> {
+        const contacts = await contactBook.getContacts()
+        this.setState({ contacts })
+    }
+
+    private logoff = () => {
+        this.props.navigation.replace('login')
     }
 
     private addNewContact = () => {
         this.props.navigation
-        this.props.navigation.navigate('edit', {
+        this.props.navigation.push('edit', {
             add: (contact: Contact) => {
                 contactBook.add(contact)
                 this.setState({ contacts: contactBook.getContacts() })

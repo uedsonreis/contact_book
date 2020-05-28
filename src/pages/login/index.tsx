@@ -1,11 +1,12 @@
 import React, { Component, ReactNode } from 'react'
 import { Button, KeyboardAvoidingView, TextInput } from 'react-native'
 
+import authService from '../../api/auth.service'
 import styles from './styles'
 
 export default class LoginPage extends Component<any, any> {
 
-    state = { username: '', password: '' }
+    state = { username: 'uedson@reis.com', password: '123' }
 
     private getHandler = (key: string) => (value: any) => {
         this.setState({ [key]: value })
@@ -18,9 +19,10 @@ export default class LoginPage extends Component<any, any> {
     }
     
     private logon(username: string, password: string): void {
-        if (username === 'Reis' && password === '123') {
-            this.props.navigation.replace('home')
-        }
+        authService.authenticate(username, password).then(isLogged => {
+            if (isLogged) this.props.navigation.replace('home')
+            else alert('Username or password is invalid!')
+        })
     }
 
     public render(): ReactNode {
@@ -29,11 +31,11 @@ export default class LoginPage extends Component<any, any> {
         return (
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
                 <TextInput
-                    style={styles.input} placeholder="Username"
+                    style={styles.input} placeholder="Username" autoCapitalize="none"
                     value={username} onChangeText={this.getHandler('username')}
                 />
                 <TextInput
-                    style={styles.input} placeholder="Password" secureTextEntry
+                    style={styles.input} placeholder="Password" autoCapitalize="none" secureTextEntry
                     value={password} onChangeText={this.getHandler('password')}
                 />
                 <Button
