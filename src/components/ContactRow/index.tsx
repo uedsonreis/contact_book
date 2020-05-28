@@ -1,18 +1,18 @@
 import React, { Component } from "react"
-import { Text, View } from "react-native"
+import { Button, Text, TouchableOpacity } from "react-native"
 
 import styles from './styles'
 
-export default class Row extends Component<any, any> {
+export default class ContactRow extends Component<any, any> {
 
     render() {
-        const { contact } = this.props
+        const { contact, onClick } = this.props
 
         return (
-            <View style={styles.row}>
+            <TouchableOpacity style={styles.row} onPress={() => onClick(contact)}>
                 <Text>{contact.name}</Text>
                 <Text>{contact.phone}</Text>
-            </View>
+            </TouchableOpacity>
         )
     }
 

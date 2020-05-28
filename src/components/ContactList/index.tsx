@@ -3,7 +3,7 @@ import { SectionList, Text } from 'react-native'
 import { Contact } from '../../domain/contact'
 import ContactRow from '../ContactRow'
 
-type Props = { contacts: Contact[] }
+type Props = { contacts: Contact[], handleClick: Function }
 
 export default class ContactList extends Component<Props, any> {
 
@@ -24,13 +24,13 @@ export default class ContactList extends Component<Props, any> {
     }
 
     render(): ReactNode {
-        const { contacts } = this.props
+        const { contacts, handleClick } = this.props
 
         return (
             <SectionList
                 sections={this.buildSections(contacts)}
                 renderSectionHeader={(info: any) => <Text>{info.section.title}</Text>}
-                renderItem={(obj: any) => <ContactRow contact={obj.item} />}
+                renderItem={(obj: any) => <ContactRow onClick={handleClick} contact={obj.item} />}
             />
         )
     }

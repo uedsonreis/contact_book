@@ -6,9 +6,19 @@ const lastNames = [ 'Smith', 'Lannister', 'Williams', 'Bull', 'Stark', 'Reis', '
 
 class ContactBook {
 
-    public getContacts() {
-        const contactList = Array.from({ length: NUM_CONTACTS }, () => this.createContact())
-        return contactList.map((v: any, k: number) => this.addKeys(v, k))
+    private contacts: Contact[] = []
+
+    public getContacts(): Contact[] {
+        if (this.contacts.length < 1) {
+            const contactList = Array.from({ length: NUM_CONTACTS }, () => this.createContact())
+            this.contacts = contactList.map((v: any, k: number) => this.addKeys(v, k))
+        }
+        return this.contacts
+    }
+
+    public add(contact: Contact): void {
+        contact.id = this.contacts.length
+        this.contacts.push(contact)
     }
 
     public compareNames(contact1: Contact, contact2: Contact) {
@@ -24,7 +34,7 @@ class ContactBook {
     }
     
     private generatePhoneNumber(): string {
-        return `(${this.random(99, 10)}) ${this.random(9, 1)} ${this.random(9999, 1000)}-${this.random(9999, 1000)}`
+        return `(${this.random(99, 10)}) ${this.random(999, 100)}.${this.random(999, 100)}.${this.random(999, 100)}`
     }
     
     private createContact(): Contact {
