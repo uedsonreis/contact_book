@@ -1,25 +1,27 @@
 import React, { Component, ReactNode } from "react"
-import { Button, Text, View } from "react-native"
+import { View, Platform } from "react-native"
 
 import { Contact } from "../../domain/contact"
 import contactBook from '../../domain/contact.book'
 
+import TopBarButton from "../../components/TopBarButton"
 import ContactList from "../../components/ContactList"
 import styles from './styles'
 
 export default class HomePage extends Component<any, any> {
 
-    constructor(props: any) {
-        super(props)
-
-        this.props.navigation.setOptions({ headerLeft: () => <Button title="exit" color="red" onPress={this.logoff} /> })
-        this.props.navigation.setOptions({ headerRight: () => <Button title="add" onPress={this.addNewContact} /> })
-
-        this.state = { contacts: [] }
-    }
+    state = { contacts: [] as Contact[] }
 
     componentDidMount() {
         this.updateContacts()
+
+        this.props.navigation.setOptions({
+            headerLeft: () => <TopBarButton name="exit" color='red' onPress={this.logoff} />
+        })
+        
+        this.props.navigation.setOptions({
+            headerRight: () => <TopBarButton name="add-circle" onPress={this.addNewContact} />
+        })
     }
 
     private async updateContacts(): Promise<void> {

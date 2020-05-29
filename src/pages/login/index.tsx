@@ -20,7 +20,7 @@ export default class LoginPage extends Component<any, any> {
     
     private logon(username: string, password: string): void {
         authService.authenticate(username, password).then(isLogged => {
-            if (isLogged) this.props.navigation.replace('home')
+            if (isLogged) this.props.navigation.replace('main')
             else alert('Username or password is invalid!')
         })
     }

@@ -5,7 +5,11 @@ class RandomUserMe {
     private convert = (user: any, index: number): Contact => ({
         id: index,
         name: `${user.name.first} ${user.name.last}`,
-        phone: user.phone
+        phone: user.phone,
+        address: {
+            longitude: Number(user.location.coordinates.longitude),
+            latitude: Number(user.location.coordinates.latitude),
+        }
     })
 
     public async getContacts(amount: number = 100): Promise<Contact[]> {
