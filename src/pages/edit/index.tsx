@@ -1,29 +1,28 @@
 import React, { Component, ReactNode } from 'react'
 import { Button, KeyboardAvoidingView, TextInput } from 'react-native'
+import { connect } from 'react-redux'
 
+import { actionFactory } from '../../redux/actions'
 import { Contact } from '../../domain/contact'
 
 import styles from './styles'
 
 type State = { contact: Contact }
 
-export default class EditContactPage extends Component<any, State> {
-
-    private add: Function
+class EditContactPage extends Component<any, State> {
 
     constructor(props: any) {
         super(props)
 
         this.props.navigation.setOptions({ headerBackTitle: 'Back' })
 
-        this.add = this.props.route.params.add
+        let contact = { id: undefined, name: '', phone: '' }
 
-        let contact = this.props.route.params.contact
-        if (!contact) {
-            contact = { name: '', phone: '' }
-            this.props.navigation.setOptions({ title: 'New Contact' })
-        } else {
+        if (this.props.route.params) {
+            contact = this.props.route.params.contact
             this.props.navigation.setOptions({ title: 'Edit a Contact' })
+        } else {
+            this.props.navigation.setOptions({ title: 'New Contact' })
         }
 
         this.state = { contact }
@@ -34,9 +33,7 @@ export default class EditContactPage extends Component<any, State> {
     }
     
     private handleContactPhone = (value: string) => {
-        if (! (+value)) return
         if (value.length > 11) return
-
         this.setState((prevState: any) => ({ contact: { ...prevState.contact, phone: value } }))
     }
     
@@ -55,7 +52,11 @@ export default class EditContactPage extends Component<any, State> {
     }
     
     private save(contact: Contact): void {
-        if (this.add) this.add(contact)
+        if (contact.id) {
+            this.props.updateContact(contact)
+        } else {
+            this.props.addContact(contact)
+        }
         this.props.navigation.goBack()
     }
 
@@ -78,3 +79,10 @@ export default class EditContactPage extends Component<any, State> {
     }
 
 }
+
+const mapActions = {
+    addContact: actionFactory.createAddContact,
+    updateContact: actionFactory.createUpdateContact
+}
+
+export default connect(null, mapActions)(EditContactPage)

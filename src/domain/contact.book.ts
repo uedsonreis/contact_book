@@ -19,6 +19,10 @@ class ContactBook {
         this.contacts.push(contact)
     }
 
+    public remove(contact: Contact): void {
+        this.contacts = this.contacts.filter(c => c.id !== contact.id)
+    }
+
 }
 
 export default new ContactBook()

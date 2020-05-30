@@ -1,8 +1,7 @@
 import React, { Component, ReactNode } from "react"
 import MapView, { Marker } from "react-native-maps"
 import * as Location from 'expo-location'
-
-import { Contact } from "../../domain/contact";
+import { Contact } from "../../domain/contact"
 
 export default class Map extends Component<any, any> {
 
@@ -27,7 +26,7 @@ export default class Map extends Component<any, any> {
     }
 
     render(): ReactNode {
-        const { contacts, style } = this.props
+        const { markers, style } = this.props
         const { location } = this.state
 
         return (
@@ -39,13 +38,8 @@ export default class Map extends Component<any, any> {
                     latitudeDelta: 70, longitudeDelta: 70,
                 }}
             >
-                {contacts.map((contact: Contact) => (
-                    <Marker
-                        key={contact.id}
-                        title={contact.name}
-                        description={contact.phone}
-                        coordinate={contact.address!}
-                    />
+                {markers.map((marker: any) => (
+                    <Marker {...marker} />
                 ))}
             </MapView>
         )

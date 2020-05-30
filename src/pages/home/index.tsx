@@ -1,20 +1,16 @@
 import React, { Component, ReactNode } from "react"
 import { View, Platform } from "react-native"
+import { connect } from 'react-redux'
 
 import { Contact } from "../../domain/contact"
-import contactBook from '../../domain/contact.book'
 
 import TopBarButton from "../../components/TopBarButton"
 import ContactList from "../../components/ContactList"
 import styles from './styles'
 
-export default class HomePage extends Component<any, any> {
-
-    state = { contacts: [] as Contact[] }
+class HomePage extends Component<any, any> {
 
     componentDidMount() {
-        this.updateContacts()
-
         this.props.navigation.setOptions({
             headerLeft: () => <TopBarButton name="exit" color='red' onPress={this.logoff} />
         })
@@ -24,23 +20,12 @@ export default class HomePage extends Component<any, any> {
         })
     }
 
-    private async updateContacts(): Promise<void> {
-        const contacts = await contactBook.getContacts()
-        this.setState({ contacts })
-    }
-
     private logoff = () => {
         this.props.navigation.replace('login')
     }
 
     private addNewContact = () => {
-        this.props.navigation
-        this.props.navigation.push('edit', {
-            add: (contact: Contact) => {
-                contactBook.add(contact)
-                this.setState({ contacts: contactBook.getContacts() })
-            }
-        })
+        this.props.navigation.push('edit')
     }
 
     private editContact = (contact: Contact) => {
@@ -48,7 +33,7 @@ export default class HomePage extends Component<any, any> {
     }
 
     public render(): ReactNode {
-        const { contacts } = this.state
+        const { contacts } = this.props
 
         return (
             <View style={styles.container}>
@@ -58,3 +43,9 @@ export default class HomePage extends Component<any, any> {
     }
 
 }
+
+function mapStateToProps(state: any) {
+    return { contacts: state.contacts }
+}
+
+export default connect(mapStateToProps)(HomePage)

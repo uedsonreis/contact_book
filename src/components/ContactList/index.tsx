@@ -29,6 +29,7 @@ export default class ContactList extends Component<Props, any> {
         return (
             <SectionList
                 sections={this.buildSections(contacts)}
+                keyExtractor={item => item.id}
                 renderSectionHeader={(info: any) => <Text>{info.section.title}</Text>}
                 renderItem={(obj: any) => <ContactRow onClick={handleClick} contact={obj.item} />}
             />
