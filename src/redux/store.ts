@@ -1,16 +1,11 @@
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
+import { persistStore, persistReducer } from 'redux-persist'
+import AsyncStorage from '@react-native-community/async-storage'
+
 import reducer from './reducer'
-import { actionFactory } from './actions'
 
-import api from '../api/randomuser.me'
+const persistedReducer = persistReducer({ key: 'root', storage: AsyncStorage }, reducer)
 
-const store = createStore(reducer)
-
-api.getContacts().then(contacts => {
-    for (let i=0; i<contacts.length; i++) {
-        contacts[i].id = (i+1)
-        store.dispatch(actionFactory.createAddContact(contacts[i]))
-    }
-})
-
-export default store
+export const store = createStore(persistedReducer, applyMiddleware(thunk))
+export const persistor = persistStore(store)

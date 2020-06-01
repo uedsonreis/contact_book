@@ -35,7 +35,7 @@ function MapStack() {
 
     return (
         <Stack.Navigator>
-            <Stack.Screen name="map" component={MapPage} options={{ title: 'Contacts on the Map' }} />
+            <Stack.Screen name="map" component={MapPage} />
         </Stack.Navigator>
     )
 }

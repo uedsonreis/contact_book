@@ -1,10 +1,18 @@
 import React, { Component, ReactNode } from 'react'
-import { Button, KeyboardAvoidingView, TextInput } from 'react-native'
+import { Button, KeyboardAvoidingView, Text, TextInput } from 'react-native'
+import { connect } from 'react-redux'
 
-import authService from '../../api/auth.service'
+import { actionFactory } from '../../redux/actions'
+
 import styles from './styles'
 
-export default class LoginPage extends Component<any, any> {
+type Props = { navigation: any, token: string, error: string, login: Function }
+
+class LoginPage extends Component<Props, any> {
+
+    componentDidUpdate(): void {
+        if (this.props.token) this.props.navigation.replace('main')
+    }
 
     state = { username: 'uedson@reis.com', password: '123' }
 
@@ -19,10 +27,7 @@ export default class LoginPage extends Component<any, any> {
     }
     
     private logon(username: string, password: string): void {
-        authService.authenticate(username, password).then(isLogged => {
-            if (isLogged) this.props.navigation.replace('main')
-            else alert('Username or password is invalid!')
-        })
+        this.props.login(username, password)
     }
 
     public render(): ReactNode {
@@ -30,6 +35,7 @@ export default class LoginPage extends Component<any, any> {
 
         return (
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
+                <Text style={styles.text}>{this.props.error}</Text>
                 <TextInput
                     style={styles.input} placeholder="Username" autoCapitalize="none"
                     value={username} onChangeText={this.getHandler('username')}
@@ -47,3 +53,16 @@ export default class LoginPage extends Component<any, any> {
     }
 
 }
+
+function mapStateToProps(state: any) {
+    return {
+        error: state.user.error,
+        token: state.user.token
+    }
+}
+
+const mapActions = {
+    login: actionFactory.createLogin
+}
+
+export default connect(mapStateToProps, mapActions)(LoginPage)

@@ -10,8 +10,10 @@ import { Contact } from "../../domain/contact"
 class MapPage extends Component<any, any> {
 
     componentDidMount() {
+        const name = (this.props.user.username as string).split('@')[0]
         this.props.navigation.setOptions({
-            headerLeft: () => <TopBarButton name="exit" color='red' onPress={this.logoff} />
+            headerLeft: () => <TopBarButton name="exit" color='red' onPress={this.logoff} />,
+            title: `${name}'s Map`
         })
     }
 
@@ -41,7 +43,10 @@ class MapPage extends Component<any, any> {
 }
 
 function mapStateToProps(state: any) {
-    return { contacts: state.contacts }
+    return {
+        contacts: state.contacts,
+        user: state.user
+    }
 }
 
 export default connect(mapStateToProps)(MapPage)

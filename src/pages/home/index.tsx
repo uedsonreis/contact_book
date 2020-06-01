@@ -1,18 +1,36 @@
 import React, { Component, ReactNode } from "react"
-import { View, Platform } from "react-native"
+import { View } from "react-native"
 import { connect } from 'react-redux'
 
+import api from '../../api/randomuser.me'
+import { actionFactory } from '../../redux/actions'
 import { Contact } from "../../domain/contact"
 
 import TopBarButton from "../../components/TopBarButton"
 import ContactList from "../../components/ContactList"
 import styles from './styles'
 
-class HomePage extends Component<any, any> {
+type Props = {
+    navigation: any,
+    contacts: Contact[], token: string,
+    setContacts: Function, logout: Function
+}
+
+class HomePage extends Component<Props, any> {
+
+    constructor(props: Props) {
+        super(props)
+
+        if (!props.contacts || props.contacts.length < 1) {
+            api.getContacts().then(contacts => {
+                this.props.setContacts(contacts.map((c, i) => ({ ...c, id: i })))
+            })
+        }
+    }
 
     componentDidMount() {
         this.props.navigation.setOptions({
-            headerLeft: () => <TopBarButton name="exit" color='red' onPress={this.logoff} />
+            headerLeft: () => <TopBarButton name="exit" color='red' onPress={() => this.props.logout()} />
         })
         
         this.props.navigation.setOptions({
@@ -20,8 +38,8 @@ class HomePage extends Component<any, any> {
         })
     }
 
-    private logoff = () => {
-        this.props.navigation.replace('login')
+    componentDidUpdate(): void {
+        if (!this.props.token) this.props.navigation.replace('login')
     }
 
     private addNewContact = () => {
@@ -45,7 +63,15 @@ class HomePage extends Component<any, any> {
 }
 
 function mapStateToProps(state: any) {
-    return { contacts: state.contacts }
+    return {
+        token: state.user.token,
+        contacts: state.contacts
+    }
 }
 
-export default connect(mapStateToProps)(HomePage)
+const mapActions = {
+    logout: actionFactory.createLogout,
+    setContacts: actionFactory.createSetContacts
+}
+
+export default connect(mapStateToProps, mapActions)(HomePage)

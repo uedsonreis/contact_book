@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native'
-import Constants from 'expo-constants'
 
 export default StyleSheet.create({
 
@@ -13,6 +12,13 @@ export default StyleSheet.create({
         padding: 5,
         borderColor: 'black',
         borderWidth: 1
+    },
+
+    text: {
+        marginTop: 10, marginBottom: 10,
+        marginLeft: 20, marginRight: 20,
+        padding: 5,
+        color: 'red'
     }
 
 })
