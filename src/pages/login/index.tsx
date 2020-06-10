@@ -1,5 +1,6 @@
 import React, { Component, ReactNode } from 'react'
-import { Button, KeyboardAvoidingView, Text, TextInput } from 'react-native'
+import { KeyboardAvoidingView, TextInput } from 'react-native'
+import { Button, Content, Form, Input, Item, Text, Label } from 'native-base'
 import { connect } from 'react-redux'
 
 import { actionFactory } from '../../redux/actions'
@@ -26,7 +27,8 @@ class LoginPage extends Component<Props, any> {
         return true
     }
     
-    private logon(username: string, password: string): void {
+    private logon = (): void => {
+        const { username, password } = this.state
         this.props.login(username, password)
     }
 
@@ -35,19 +37,28 @@ class LoginPage extends Component<Props, any> {
 
         return (
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
-                <Text style={styles.text}>{this.props.error}</Text>
-                <TextInput
-                    style={styles.input} placeholder="Username" autoCapitalize="none"
-                    value={username} onChangeText={this.getHandler('username')}
-                />
-                <TextInput
-                    style={styles.input} placeholder="Password" autoCapitalize="none" secureTextEntry
-                    value={password} onChangeText={this.getHandler('password')}
-                />
-                <Button
-                    title="Enter" disabled={!this.validateForm()}
-                    onPress={() => this.logon(username, password)}
-                />
+                <Content>
+                    <Text style={styles.text}>{this.props.error}</Text>
+                    <Form>
+                        <Item>
+                            <Label>Username</Label>
+                            <Input
+                                placeholder="winston" autoCapitalize="none"
+                                value={username} onChangeText={this.getHandler('username')}
+                            />
+                        </Item>
+                        <Item last>
+                            <Label>Password</Label>
+                            <Input
+                                placeholder="password" autoCapitalize="none" secureTextEntry
+                                value={password} onChangeText={this.getHandler('password')}
+                            />
+                        </Item>
+                        <Button style={styles.button} disabled={!this.validateForm()} onPress={this.logon} block>
+                            <Text>Enter</Text>
+                        </Button>
+                    </Form>
+                </Content>
             </KeyboardAvoidingView>
         )
     }

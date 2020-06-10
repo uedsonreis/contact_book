@@ -1,5 +1,6 @@
 import React, { Component, ReactNode } from "react"
 import { View } from "react-native"
+import { Header, Left, Right, Title } from 'native-base'
 import { connect } from 'react-redux'
 
 import Map from '../../components/Map'
@@ -9,10 +10,13 @@ import { Contact } from "../../domain/contact"
 
 class MapPage extends Component<any, any> {
 
-    componentDidMount() {
+    constructor(props: any) {
+        super(props)
+
         const name = (this.props.user.username as string).split('@')[0]
+        
         this.props.navigation.setOptions({
-            headerLeft: () => <TopBarButton name="exit" color='red' onPress={this.logoff} />,
+            headerLeft: () => <TopBarButton name="exit" color='red' onPress={this.props.logoff} />,
             title: `${name}'s Map`
         })
     }

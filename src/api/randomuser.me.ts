@@ -12,7 +12,7 @@ class RandomUserMe {
         }
     })
 
-    public async getContacts(amount: number = 10): Promise<Contact[]> {
+    public async getContacts(amount: number = 50): Promise<Contact[]> {
         const response = await fetch('https://randomuser.me/api/?results='+amount)
         const {results} = await response.json()
         return results.map(this.convert)

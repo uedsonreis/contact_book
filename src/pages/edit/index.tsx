@@ -1,5 +1,6 @@
 import React, { Component, ReactNode } from 'react'
-import { Button, KeyboardAvoidingView, TextInput } from 'react-native'
+import { KeyboardAvoidingView, TextInput } from 'react-native'
+import { Button, Content, Text, Form, Input, Item, Label } from 'native-base'
 import { connect } from 'react-redux'
 
 import { actionFactory } from '../../redux/actions'
@@ -51,7 +52,9 @@ class EditContactPage extends Component<any, State> {
         return true
     }
     
-    private save(contact: Contact): void {
+    private save = (): void => {
+        const { contact } = this.state
+
         if (contact.id) {
             this.props.updateContact(contact)
         } else {
@@ -65,15 +68,25 @@ class EditContactPage extends Component<any, State> {
 
         return (
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
-                <TextInput
-                    style={styles.input} placeholder="Full Name"
-                    value={contact.name} onChangeText={this.getHandler('name')}
-                />
-                <TextInput
-                    style={styles.input} keyboardType="numeric" placeholder="Phone"
-                    value={contact.phone} onChangeText={this.handleContactPhone}
-                />
-                <Button title="Save" onPress={() => this.save(contact)} disabled={!this.validateForm()} />
+                <Content>
+                    <Form>
+                        <Item>
+                            <Label>Name</Label>
+                            <Input
+                                placeholder="Winston Churchill" value={contact.name} onChangeText={this.getHandler('name')}
+                            />
+                        </Item>
+                        <Item last>
+                            <Label>Phone</Label>
+                            <Input
+                                keyboardType="numeric" placeholder="11999888777" value={contact.phone} onChangeText={this.handleContactPhone}
+                            />
+                        </Item>
+                        <Button style={styles.button} disabled={!this.validateForm()} onPress={this.save} block>
+                            <Text>Save</Text>
+                        </Button>
+                    </Form>
+                </Content>
             </KeyboardAvoidingView>
         )
     }

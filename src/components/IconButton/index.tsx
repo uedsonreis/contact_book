@@ -2,7 +2,7 @@ import React, { ReactNode, Component } from "react"
 import { Platform } from "react-native"
 import { Ionicons } from '@expo/vector-icons'
 
-export default class TopBarButton extends Component<any, any> {
+export default class IconButton extends Component<any, any> {
 
     render(): ReactNode {
         const { name } = this.props

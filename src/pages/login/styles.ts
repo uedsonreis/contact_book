@@ -6,19 +6,14 @@ export default StyleSheet.create({
         flex: 1
     },
 
-    input: {
-        marginTop: 10, marginBottom: 10,
-        marginLeft: 20, marginRight: 20,
-        padding: 5,
-        borderColor: 'black',
-        borderWidth: 1
+    text: {
+        marginHorizontal: 15,
+        marginVertical: 20,
+        color: 'red'
     },
 
-    text: {
-        marginTop: 10, marginBottom: 10,
-        marginLeft: 20, marginRight: 20,
-        padding: 5,
-        color: 'red'
+    button: {
+        margin: 15
     }
 
 })

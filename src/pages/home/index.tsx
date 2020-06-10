@@ -1,7 +1,7 @@
 import React, { Component, ReactNode } from "react"
 import { View } from "react-native"
 import { connect } from 'react-redux'
-
+import { Container, Title } from 'native-base'
 import api from '../../api/randomuser.me'
 import { actionFactory } from '../../redux/actions'
 import { Contact } from "../../domain/contact"
@@ -30,10 +30,7 @@ class HomePage extends Component<Props, any> {
 
     componentDidMount() {
         this.props.navigation.setOptions({
-            headerLeft: () => <TopBarButton name="exit" color='red' onPress={() => this.props.logout()} />
-        })
-        
-        this.props.navigation.setOptions({
+            headerLeft: () => <TopBarButton name="exit" color='red' onPress={() => this.props.logout()} />,
             headerRight: () => <TopBarButton name="add-circle" onPress={this.addNewContact} />
         })
     }
@@ -52,11 +49,10 @@ class HomePage extends Component<Props, any> {
 
     public render(): ReactNode {
         const { contacts } = this.props
-
         return (
-            <View style={styles.container}>
+            <Container>
                 <ContactList contacts={contacts} handleClick={this.editContact} />
-            </View>
+            </Container>
         )
     }
 
